@@ -10,51 +10,47 @@ public class GameControl : MonoBehaviour
     public List<GameObject> Pieces, lines;
     public int turn, Winner;
     public Text Message;
+    public GameObject panel;
    
-
     void Start()
     {
         player = false;
-        turn = 0;
-        win = false;
-        vsCpu = false;
+        turn = 0;     
+        panel.SetActive(false);
     }
 
-    void Update()
-    {
+    void Update() 
+    {       
         if (turn == 9 && !win)
             Message.text = "Empate";
 
-        else if (win)
+        if (win)
+        {
             whoWin();
-        
-        CheckWin();
+            panel.SetActive(true);           
+        }            
     }
-
 
     public void changePlayer()
     {
         player = !player;
-
-        if(vsCpu && player)
+        CheckWin();
+        if (vsCpu && player && !win)
         {
             computerTurn();
         }
         turn++;
     }
-
-  
+      
     void whoWin()
     {
         if (Winner == 1)
         {
-            Message.text = "Gano X";
-
+            Message.text = "Gano X";            
         }
         else
         {
             Message.text = "Gano O";
-
         }
     }
 
@@ -64,7 +60,8 @@ public class GameControl : MonoBehaviour
         while(!foundCeroState)
         {
             int randomNumber = Random.Range(0,9);
-            if(Pieces[randomNumber].gameObject.GetComponent<Ficha>().state == 0)
+           
+            if (Pieces[randomNumber].gameObject.GetComponent<Ficha>().state == 0)
             {
                 Pieces[randomNumber].gameObject.GetComponent<Ficha>().changeShape();
                 foundCeroState = true;
@@ -74,9 +71,8 @@ public class GameControl : MonoBehaviour
 
     public void CheckWin()
     { 
-
         //HORIZONTAL
-        if(Pieces[0].gameObject.GetComponent<Ficha>().state != 0 && Pieces[1].gameObject.GetComponent<Ficha>().state != 0 && Pieces[1].gameObject.GetComponent<Ficha>().state != 0)
+        if(Pieces[0].gameObject.GetComponent<Ficha>().state != 0 && Pieces[1].gameObject.GetComponent<Ficha>().state != 0 && Pieces[2].gameObject.GetComponent<Ficha>().state != 0)
         { 
           if (Pieces[0].gameObject.GetComponent<Ficha>().state == Pieces[1].gameObject.GetComponent<Ficha>().state &&
               Pieces[1].gameObject.GetComponent<Ficha>().state == Pieces[2].gameObject.GetComponent<Ficha>().state)
@@ -85,6 +81,7 @@ public class GameControl : MonoBehaviour
                 win = true;
                 Winner = Pieces[0].gameObject.GetComponent<Ficha>().state;
                 lines[3].SetActive(true);
+                return;
             }
         }
 
@@ -97,7 +94,7 @@ public class GameControl : MonoBehaviour
                 win = true;
                 Winner = Pieces[3].gameObject.GetComponent<Ficha>().state;
                 lines[4].SetActive(true);
-
+                return;
             }
         }
 
@@ -110,6 +107,7 @@ public class GameControl : MonoBehaviour
                 win = true;
                 Winner = Pieces[6].gameObject.GetComponent<Ficha>().state;
                 lines[5].SetActive(true);
+                return;
             }
         }
 
@@ -124,6 +122,7 @@ public class GameControl : MonoBehaviour
                 win = true;
                 Winner = Pieces[0].gameObject.GetComponent<Ficha>().state;
                 lines[0].SetActive(true);
+                return;
             }
         }
 
@@ -136,6 +135,7 @@ public class GameControl : MonoBehaviour
                 win = true;
                 Winner = Pieces[1].gameObject.GetComponent<Ficha>().state;
                 lines[1].SetActive(true);
+                return;
             }
         }
 
@@ -148,6 +148,7 @@ public class GameControl : MonoBehaviour
                 win = true;
                 Winner = Pieces[2].gameObject.GetComponent<Ficha>().state;
                 lines[2].SetActive(true);
+                return;
             }
         }
 
@@ -161,6 +162,7 @@ public class GameControl : MonoBehaviour
                 win = true;
                 Winner = Pieces[0].gameObject.GetComponent<Ficha>().state;
                 lines[6].SetActive(true);
+                return;
             }
         }
 
@@ -173,6 +175,7 @@ public class GameControl : MonoBehaviour
                 win = true;
                 Winner = Pieces[2].gameObject.GetComponent<Ficha>().state;
                 lines[7].SetActive(true);
+                return;
 
             }
         }
